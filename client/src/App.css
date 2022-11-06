@@ -6,13 +6,13 @@
     
         @author McKilla Gorilla
     */
-  --swatch-foundation: #eeeedd;
-  --swatch-primary: #e6e6e6;
-  --swatch-complement: #e1e4cb;
+  --swatch-foundation: #efe4e4;
+  --swatch-primary: #ffffff;
+  --swatch-complement: lightsalmon;
   --swatch-contrast: #111111;
   --swatch-accent: #669966;
   --swatch-status: #123456;
-  --my-font-family: "Robaaaoto";
+  --my-font-family: "Tangerine";
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
 
@@ -22,11 +22,11 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: "Lexend Exa";
+  font-family: "Tangerine";
   position: absolute;
   width: 80%;
   left: 10%;
-  height: 90%;
+  height: 100%;
   top: 5%;
 }
 
@@ -54,14 +54,14 @@ body {
   border-radius: 10px;
 }
 #splash-screen {
-  background-image: linear-gradient(to bottom, #b8b808, #636723);
+  background-image: linear-gradient(to right, rgb(255, 103, 65), #F7C5A7);
   color: white;
-  font-size: 5vw;
+  font-size: 60pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
-  border-radius: 10px;
   padding-left: 10%;
+  padding-right: 10%;
   padding-top: 5%;
   padding-bottom: 5%;
   height:70%;
@@ -112,21 +112,24 @@ body {
   background-color: var(--swatch-accent);
 }
 
-#top5-statusbar {
-  position: absolute;
+#playlister-statusbar {
+  position: sticky;
   left: 0%;
   top: 90%;
   width: 100%;
   height: 10%;
-  background-color: lightsalmon;
+  background-image: linear-gradient(to bottom, rgb(255, 103, 65), #F7C5A7);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 36pt;
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
 }
 
 #list-selector-heading {
-  position: absolute;
+  position: relative;
   left: 0%;
   top: 0%;
   width: 100%;
@@ -144,7 +147,9 @@ body {
 }
 
 #list-selector-list {
-  position: absolute;
+  position: relative;
+  overflow: scroll;
+  max-height: 570px;
   left: 0%;
   top: 10%;
   width: 100%;
@@ -166,7 +171,7 @@ body {
 .list-card:aria-disabled,
 .list-card[aria-disabled] {
   border: 1px solid #999999;
-  background-color: #cccccc;
+  background-color: #988f8f;
   color: #666666;
   pointer-events: none;
 }
@@ -189,6 +194,16 @@ body {
 .list-card-button {
   float: right;
   transform: scale(1);
+}
+
+#playlist-cards {
+  overflow: scroll;
+  max-height: 570px;
+  font-size: 36pt;
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+  display:grid;
+  background-color: var(--swatch-primary);
 }
 
 #workspace-home,
@@ -279,7 +294,7 @@ input {
   visibility: hidden;
   opacity: 0;
   transition: all 0.35s ease-in;
-  font-family: var(--font-primary);
+  font-family: "Tangerine";
 }
 
 .modal.is-visible {
@@ -297,6 +312,7 @@ input {
   border-width: 5px;
   border-radius: 10px;
   border-style: groove;
+  font-family: "Tangerine";
 }
 
 .modal-dialog > * {
@@ -327,6 +343,36 @@ input {
 .modal-control {
   cursor: pointer;
   width: 20%;
+}
+
+.modal-north {
+  font-size:28pt;
+  font-weight: bold;
+  background-color: #d37b73;
+  color:white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+}
+.modal-center {
+  display: grid;
+  grid-template-columns: 30% 65%;
+  grid-template-rows: 33% 33% 33%;
+  gap: 10px 20px;
+  font-size: 28pt;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.modal-south {
+  display:flex;
+  flex-direction: row;
+  background-color: rgb(244, 201, 176);
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .dialog-header {

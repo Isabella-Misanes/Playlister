@@ -9,11 +9,13 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 422,
+    height: 205,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    fontSize: 36
 };
 
 export default function MUIEditSongModal() {
@@ -61,7 +63,7 @@ export default function MUIEditSongModal() {
                 className="modal-root">
                 <div
                     id="edit-song-modal-header"
-                    className="modal-north">Edit Song</div>
+                    className="modal-north"><strong>Edit Song</strong></div>
                 <div
                     id="edit-song-modal-content"
                     className="modal-center">

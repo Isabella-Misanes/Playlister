@@ -12,8 +12,7 @@ const style = {
     width: 400,
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+    boxShadow: 24
 };
 
 export default function MUIRemoveSongModal() {
@@ -51,7 +50,7 @@ export default function MUIRemoveSongModal() {
             </div>
             <div className="modal-center">
                 <div className="modal-center-content">
-                    Are you sure you wish to permanently remove {songTitle} from the playlist?
+                    Are you sure you wish to permanently remove <strong>{songTitle}</strong> from the playlist?
                 </div>
             </div>
             <div className="modal-south">
