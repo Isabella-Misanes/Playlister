@@ -317,6 +317,9 @@ function GlobalStoreContextProvider(props) {
         }
         getListToDelete(id);
     }
+    store.unmarkListForDeletion = function() {
+        store.hideModals();
+    }
     store.deleteList = function (id) {
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
