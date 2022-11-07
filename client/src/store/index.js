@@ -516,6 +516,10 @@ function GlobalStoreContextProvider(props) {
         return (store.currentList !== null);
     }
 
+    store.isModalOpen = function() {
+        return (store.currentModal !== CurrentModal.NONE);
+    }
+
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
     store.setIsListNameEditActive = function () {
         storeReducer({
