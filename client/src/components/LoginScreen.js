@@ -15,6 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import MUIBadLoginModal from './MUIBadLoginModal';
 
 export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
@@ -59,6 +60,7 @@ export default function LoginScreen() {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
+                    <MUIBadLoginModal></MUIBadLoginModal>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>

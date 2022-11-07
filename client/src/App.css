@@ -7,8 +7,8 @@
         @author McKilla Gorilla
     */
   --swatch-foundation: #ffb3ac;
-  --swatch-primary: #cff4c7;
-  --swatch-complement: rgb(255, 136, 136);
+  --swatch-primary: #ffe6e6;
+  --swatch-complement: rgb(255, 181, 181);
   --swatch-contrast: #111111;
   --swatch-accent: #669966;
   --swatch-status: #123456;
@@ -162,7 +162,7 @@ body {
 .list-card,
 .selected-list-card,
 .unselected-list-card {
-  font-size: 18pt;
+  font-size: 24pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
