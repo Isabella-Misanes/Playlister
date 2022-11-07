@@ -9,10 +9,13 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 300,
+    height: 138,
     bgcolor: 'background.paper',
     border: '2px solid #000',
-    boxShadow: 24
+    boxShadow: 24,
+    p: 4,
+    fontSize: 36
 };
 
 export default function MUIRemoveSongModal() {
@@ -48,10 +51,8 @@ export default function MUIRemoveSongModal() {
             <div className="modal-north">
                 Remove {songTitle}?
             </div>
-            <div className="modal-center">
-                <div className="modal-center-content">
-                    Are you sure you wish to permanently remove <strong>{songTitle}</strong> from the playlist?
-                </div>
+            <div className="modal-center-content">
+                Are you sure you wish to permanently remove <strong>{songTitle}</strong> from the playlist?
             </div>
             <div className="modal-south">
                 <input type="button" 
