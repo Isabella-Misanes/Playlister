@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import api from './auth-request-api'
-import MUIBadLoginModal from "../components/MUIBadLoginModal";
 
 const AuthContext = createContext();
 console.log("create AuthContext: " + AuthContext);
