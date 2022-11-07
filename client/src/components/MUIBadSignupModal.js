@@ -4,18 +4,18 @@ import Modal from '@mui/material/Modal';
 import AuthContext from '../auth';
 import { Alert } from '@mui/material';
 
-export default function MUIBadLoginModal() {
+export default function MUIBadSignupModal() {
     const { auth } = useContext(AuthContext);
 
     return (
         <Modal
-            open={auth.isBadLoginModalOpen()}
+            open={auth.isBadSignupModalOpen()}
         >
             <Alert severity="warning"
                 onClose={() => {
-                    auth.hideBadLoginModal();
+                    auth.hideBadSignupModal();
                 }}>
-                Incorrect login credentials. Please try again.
+                Incorrect sign-up credentials. Please try again.
             </Alert>
         </Modal>
     );

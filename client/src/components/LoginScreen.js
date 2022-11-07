@@ -16,6 +16,7 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MUIBadLoginModal from './MUIBadLoginModal';
+import MUIBadCredsModal from './MUIBadCreds';
 
 export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
@@ -61,6 +62,7 @@ export default function LoginScreen() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <MUIBadLoginModal></MUIBadLoginModal>
+                    <MUIBadCredsModal></MUIBadCredsModal>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>

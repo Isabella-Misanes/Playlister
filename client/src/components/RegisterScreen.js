@@ -12,6 +12,8 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import MUIBadSignupModal from './MUIBadSignupModal';
+import MUIBadCredsModal from './MUIBadCreds';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
@@ -42,6 +44,8 @@ export default function RegisterScreen() {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
+                    <MUIBadSignupModal></MUIBadSignupModal>
+                    <MUIBadCredsModal></MUIBadCredsModal>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>

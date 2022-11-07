@@ -8,6 +8,7 @@ import MUIDeleteModal from './MUIDeleteModal'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import MUIBadLoginModal from './MUIBadLoginModal'
+import MUIBadSignupModal from './MUIBadSignupModal'
 import RegisterScreen from './RegisterScreen'
 import SongCard from './SongCard'
 import SplashScreen from './SplashScreen'
@@ -30,6 +31,7 @@ export {
     MUIEditSongModal,
     MUIRemoveSongModal,
     MUIBadLoginModal,
+    MUIBadSignupModal,
     SongCard,
     RegisterScreen,
     SplashScreen,

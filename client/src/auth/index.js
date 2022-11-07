@@ -12,12 +12,16 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
-    INCORRECT_LOGIN: "INCORRECT_LOGIN"
+    INCORRECT_LOGIN: "INCORRECT_LOGIN",
+    INCORRECT_SIGNUP: "INCORRECT_SIGNUP",
+    INCOMPLETE_CREDS: "INCOMPLETE_CREDS"
 }
 
 const CurrentModal = {
     NONE: "NONE",
-    BAD_LOGIN: "BAD_LOGIN"
+    BAD_LOGIN: "BAD_LOGIN",
+    BAD_SIGNUP: "BAD_SIGNUP",
+    BAD_CREDS: "BAD_CREDS"
 }
 
 function AuthContextProvider(props) {
@@ -70,6 +74,20 @@ function AuthContextProvider(props) {
                     currentModal: CurrentModal.BAD_LOGIN
                 })
             }
+            case AuthActionType.INCORRECT_SIGNUP: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    currentModal: CurrentModal.BAD_SIGNUP
+                })
+            }
+            case AuthActionType.INCOMPLETE_CREDS: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    currentModal: CurrentModal.BAD_CREDS
+                })
+            }
             case AuthActionType.HIDE_MODAL: {
                 return setAuth({
                     user: null,
@@ -106,6 +124,12 @@ function AuthContextProvider(props) {
             })
             history.push("/");
         }
+        else if(response.status === 201) {
+            auth.showBadCredsModal();
+        }
+        else {
+            auth.showBadSignupModal();
+        }
     }
 
     auth.loginUser = async function(email, password) {
@@ -119,6 +143,9 @@ function AuthContextProvider(props) {
                 }
             })
             history.push("/");
+        }
+        else if(response.status === 201) {
+            auth.showBadCredsModal();
         }
         else {
             auth.showBadLoginModal();
@@ -160,8 +187,42 @@ function AuthContextProvider(props) {
         });
     }
 
+    auth.showBadSignupModal = () => {
+        authReducer({
+            type: AuthActionType.INCORRECT_SIGNUP,
+            payload: {}
+        });  
+    }
+
+    auth.hideBadSignupModal = () => {
+        authReducer({
+            type: AuthActionType.HIDE_MODAL,
+            payload: {}
+        });
+    }
+
+    auth.showBadCredsModal = () => {
+        authReducer({
+            type: AuthActionType.INCOMPLETE_CREDS,
+            payload: {}
+        });  
+    }
+
+    auth.hideBadCredsModal = () => {
+        authReducer({
+            type: AuthActionType.HIDE_MODAL,
+            payload: {}
+        });
+    }
+
     auth.isBadLoginModalOpen = () => {
         return auth.currentModal === CurrentModal.BAD_LOGIN;
+    }
+    auth.isBadSignupModalOpen = () => {
+        return auth.currentModal === CurrentModal.BAD_SIGNUP;
+    }
+    auth.isBadCredsModalOpen = () => {
+        return auth.currentModal === CurrentModal.BAD_CREDS;
     }
 
     return (

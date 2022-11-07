@@ -143,6 +143,7 @@ body {
 }
 
 #add-list-button {
+  background-color: var(--swatch-foundation);
   float: left;
 }
 
@@ -308,15 +309,9 @@ input {
   background: var(--swatch-complement);
   overflow: auto;
   cursor: default;
-  border-width: 5px;
-  border-radius: 10px;
-  border-style: groove;
   font-family: "Tangerine";
 }
 
-.modal-dialog > * {
-  padding: 1rem;
-}
 
 .modal-header,
 .modal-footer {
@@ -379,7 +374,10 @@ input {
 }
 
 .dialog-header {
-  font-size: 24pt;
+  font-size: 36pt;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
 
 #close-modal-button {
@@ -388,6 +386,7 @@ input {
 
 #confirm-cancel-container {
   text-align: center;
+  padding-bottom: 10px;
 }
 
 /* ANIMATIONS
