@@ -41,6 +41,8 @@ export default function MUIRemoveSongModal() {
     return (
         <Modal
             open={store.showRemoveSongModal !== null}
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1"
         >
             <Box sx={style}>
             <div

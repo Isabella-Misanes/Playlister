@@ -18,7 +18,10 @@ function Statusbar() {
         text = "";
     }
     return (
-        <div id="playlister-statusbar">
+        <div 
+            id="playlister-statusbar"
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1">
             <Typography variant="h4">{text}</Typography>
         </div>
     );

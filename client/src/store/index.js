@@ -516,7 +516,16 @@ function GlobalStoreContextProvider(props) {
     store.canClose = function() {
         return (store.currentList !== null);
     }
-
+    store.undoRedoHandling = function(event) {
+        if(!store.isModalOpen()) {
+            if(event.ctrlKey && event.key === "z" && store.canUndo()) {
+                store.undo();
+            }
+            else if(event.ctrlKey && event.key === "y" && store.canRedo()) {
+                store.redo();
+            }
+        }
+    }
     store.isModalOpen = function() {
         return (store.currentModal !== CurrentModal.NONE);
     }

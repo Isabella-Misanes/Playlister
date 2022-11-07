@@ -15,7 +15,7 @@ export default function MUIBadSignupModal() {
                 onClose={() => {
                     auth.hideBadSignupModal();
                 }}>
-                Incorrect sign-up credentials. Please try again.
+                Incorrect sign-up credentials. Please make sure your password is at least 8 characters and your email isn't already registered.
             </Alert>
         </Modal>
     );

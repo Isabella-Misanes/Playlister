@@ -52,6 +52,8 @@ export default function MUIEditSongModal() {
     return (
         <Modal
             open={store.showEditSongModal !== null}
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1"
         >
             <Box sx={style}>
             <div

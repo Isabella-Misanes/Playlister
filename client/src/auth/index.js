@@ -123,7 +123,7 @@ function AuthContextProvider(props) {
             })
             history.push("/");
         }
-        else if(response.status === 201) {
+        else if(response.status === 204) {
             auth.showBadCredsModal();
         }
         else {

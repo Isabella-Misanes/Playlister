@@ -96,7 +96,10 @@ export default function AppBanner() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box 
+            sx={{ flexGrow: 1 }}
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1">
             <AppBar position="static">
                 <Toolbar>
                     <Typography                        

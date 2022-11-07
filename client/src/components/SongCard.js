@@ -48,6 +48,8 @@ function SongCard(props) {
         <div
             key={index}
             id={'song-' + index + '-card'}
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1"
             className={cardClass}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
