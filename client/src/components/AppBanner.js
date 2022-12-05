@@ -110,7 +110,11 @@ export default function AppBanner() {
                     >
                         <Link 
                             onClick={handleHomePress}
-                            style={{ textDecoration: 'none', color: 'white' }} to='/'>⌂
+                            style={{ textDecoration: 'none', color: 'white' }} to='/'>
+                                <img
+                                    src="Playlister_small.png"
+                                    alt="Playlister"
+                                />
                         </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
