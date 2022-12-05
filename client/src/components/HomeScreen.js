@@ -14,6 +14,22 @@ import Typography from '@mui/material/Typography'
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const buttonStyle = {
+        margin: 0,
+        top: 'auto',
+        right: '60%',
+        bottom: '5.5%',
+        left: 'auto',
+        position: 'fixed',
+    };
+    const textStyle = {
+        margin: 0,
+        top: 'auto',
+        right: '40%',
+        bottom: '4%',
+        left: 'auto',
+        position: 'fixed',
+    };
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -25,7 +41,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '50%', left: '2.5%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -41,6 +57,7 @@ const HomeScreen = () => {
         <div id="playlist-selector">
             <div id="list-selector-heading">
             <Fab 
+                style={buttonStyle}
                 color="primary" 
                 aria-label="add"
                 id="add-list-button"
@@ -49,7 +66,12 @@ const HomeScreen = () => {
             >
                 <AddIcon />
             </Fab>
-                <Typography variant="h2">Your Lists</Typography>
+                <Typography 
+                    style={textStyle}
+                    variant="h2"
+                    >
+                        Your Lists
+                </Typography>
             </div>
             <div id="list-selector-list">
                 {
