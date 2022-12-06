@@ -42,7 +42,7 @@ function WorkspaceScreen() {
          </List>            
          { modalJSX }
          </Box>
-    )
+    );
 }
 
 export default WorkspaceScreen;

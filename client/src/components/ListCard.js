@@ -1,11 +1,15 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import WorkspaceScreen from './WorkspaceScreen';
+import { Grid } from '@mui/material';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -16,7 +20,9 @@ import TextField from '@mui/material/TextField';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
+    const [expandActive, setExpandActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
@@ -37,6 +43,19 @@ function ListCard(props) {
     function handleToggleEdit(event) {
         event.stopPropagation();
         toggleEdit();
+    }
+
+    function handleToggleExpand(event) {
+        event.stopPropagation();
+        toggleExpand();
+    }
+
+    function toggleExpand() {
+        let newExpand = !expandActive;
+        if(newExpand) {
+            store.setIsListExpandedActive();
+        }
+        setExpandActive(newExpand);
     }
 
     function toggleEdit() {
@@ -73,38 +92,102 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+    
     let cardElement =
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
             sx={{ marginTop: '10px', display: 'flex', p: 1 }}
             style={{ width: '100%', fontSize: '24pt' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
         >
-            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton 
-                    onClick={handleToggleEdit} 
-                    aria-label='edit'
-                    disabled={store.isModalOpen()}>
-                    <EditIcon style={{fontSize:'24pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton 
+            <Grid container>
+                <Grid item xs={12}>
+                    <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Box 
+                        sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                        style={{fontSize: '12pt'}}
+                        >
+                            by {auth.getUsername()}
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Box sx={{}}>
+                        <IconButton 
+                            onClick={handleToggleExpand} 
+                            aria-label='edit'>
+                            <ExpandMoreIcon style={{
+                                fontSize:'24pt'
+                            }} 
+                            />
+                        </IconButton>
+                    </Box>
+                </Grid>
+            </Grid>
+        </ListItem>;
+    
+
+    if(expandActive) {
+            cardElement =
+                <ListItem
+                    id={idNamePair._id}
+                    key={idNamePair._id}
+                    sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+                    style={{ width: '100%', fontSize: '24pt' }}
+                    /*
+                    button
                     onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} 
-                    aria-label='delete'
-                    disabled={store.isModalOpen()}>
-                    <DeleteIcon style={{fontSize:'24pt'}} />
-                </IconButton>
-            </Box>
-            
-        </ListItem>
+                        handleLoadList(event, idNamePair._id)
+                    }}
+                    */
+                >
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Box 
+                                sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                                style={{fontSize: '12pt'}}
+                                >
+                                    by {auth.getUsername()}
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Box sx={{}}>
+                                <IconButton 
+                                    onClick={handleToggleExpand} 
+                                    aria-label='edit'
+                                    disabled={store.isModalOpen()}>
+                                    <ExpandMoreIcon style={{
+                                        fontSize:'24pt'
+                                    }} 
+                                    />
+                                </IconButton>
+                            </Box>
+                        </Grid>
+                        <Box sx={{}}>
+                            <IconButton 
+                                onClick={handleToggleEdit} 
+                                aria-label='edit'
+                                disabled={store.isModalOpen()}>
+                                <EditIcon style={{fontSize:'24pt'}} />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{}}>
+                            <IconButton 
+                                onClick={(event) => {
+                                    handleDeleteList(event, idNamePair._id)
+                                }} 
+                                aria-label='delete'
+                                disabled={store.isModalOpen()}>
+                                <DeleteIcon style={{fontSize:'24pt'}} />
+                            </IconButton>
+                        </Box>
+                    </Grid>
+                </ListItem>
+    }
 
     if (editActive) {
         cardElement =
@@ -120,7 +203,7 @@ function ListCard(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
+                inputProps={{style: {fontSize: 24}}}
                 InputLabelProps={{style: {fontSize: 24}}}
                 autoFocus
             />

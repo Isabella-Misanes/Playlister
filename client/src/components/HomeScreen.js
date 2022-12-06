@@ -2,11 +2,15 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
+import MUIEditSongModal from './MUIEditSongModal'
+import SongCard from './SongCard'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
+import { Box } from '@mui/system'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -49,7 +53,8 @@ const HomeScreen = () => {
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
-                    />
+                    >
+                    </ListCard>
                 ))
             }
             </List>;
@@ -63,7 +68,7 @@ const HomeScreen = () => {
                 aria-label="add"
                 id="add-list-button"
                 onClick={handleCreateNewList}
-                disabled={store.isModalOpen()}
+                disabled={store.isModalOpen() || !store.isHome() }
             >
                 <AddIcon />
             </Fab>

@@ -35,10 +35,30 @@ export default function HomeBanner() {
         setAnchorEl(null);
     };
 
-    const handleHomePress = (event) => {
-        store.closeCurrentList();
-    };
+    const handleSortAlphabetical = () => {
+        
+        handleMenuClose();
+    }
 
+    const handleSortDate = () => {
+        
+        handleMenuClose();
+    }
+
+    const handleSortListens = () => {
+        
+        handleMenuClose();
+    }
+
+    const handleSortLikes = () => {
+        
+        handleMenuClose();
+    }
+
+    const handleSortDislikes = () => {
+        
+        handleMenuClose();
+    }
 
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
@@ -76,11 +96,11 @@ export default function HomeBanner() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Name (A - Z)</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Publish Date (Newest)</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Listens</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Likes</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Dislikes</Link></MenuItem>
+            <MenuItem onClick={handleSortAlphabetical}>Name (A - Z)</MenuItem>
+            <MenuItem onClick={handleSortDate}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSortListens}>Listens</MenuItem>
+            <MenuItem onClick={handleSortLikes}>Likes</MenuItem>
+            <MenuItem onClick={handleSortDislikes}>Dislikes</MenuItem>
         </Menu>        
 
     let editToolbar = "";

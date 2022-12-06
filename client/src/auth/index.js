@@ -172,6 +172,14 @@ function AuthContextProvider(props) {
         return initials;
     }
 
+    auth.getUsername = function() {
+        let username = "";
+        if(auth.user) {
+            username = auth.user.username;
+        }
+        return username;
+    }
+
     auth.showBadLoginModal = () => {
         authReducer({
             type: AuthActionType.INCORRECT_LOGIN,
