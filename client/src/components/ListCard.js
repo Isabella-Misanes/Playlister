@@ -77,8 +77,8 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '36pt' }}
+            sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+            style={{ width: '100%', fontSize: '24pt' }}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
@@ -90,7 +90,7 @@ function ListCard(props) {
                     onClick={handleToggleEdit} 
                     aria-label='edit'
                     disabled={store.isModalOpen()}>
-                    <EditIcon style={{fontSize:'48pt'}} />
+                    <EditIcon style={{fontSize:'24pt'}} />
                 </IconButton>
             </Box>
             <Box sx={{ p: 1 }}>
@@ -100,9 +100,10 @@ function ListCard(props) {
                     }} 
                     aria-label='delete'
                     disabled={store.isModalOpen()}>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
+                    <DeleteIcon style={{fontSize:'24pt'}} />
                 </IconButton>
             </Box>
+            
         </ListItem>
 
     if (editActive) {
