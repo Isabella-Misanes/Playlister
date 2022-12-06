@@ -4,7 +4,6 @@ import SplashScreen from './SplashScreen'
 import AuthContext from '../auth'
 import HomeBanner from './HomeBanner';
 import { Grid } from '@mui/material';
-import { Box } from '@mui/system';
 import YouTubePlayer from './YouTubePlayer';
 
 export default function HomeWrapper() {

@@ -15,6 +15,7 @@ const playlistSchema = new Schema(
             artist: String,
             youTubeId: String
         }], required: true },
+        isPublished: { type: Boolean, required: false},
         comments: { type: [{
             user: String,
             comment: String

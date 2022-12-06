@@ -17,13 +17,14 @@ const HomeScreen = () => {
     const buttonStyle = {
         margin: 0,
         top: 'auto',
-        right: '60%',
+        right: '55%',
         bottom: '5.5%',
         left: 'auto',
         position: 'fixed',
     };
     const textStyle = {
         margin: 0,
+        fontSize: '30pt',
         top: 'auto',
         right: '40%',
         bottom: '4%',
@@ -68,7 +69,6 @@ const HomeScreen = () => {
             </Fab>
                 <Typography 
                     style={textStyle}
-                    variant="h2"
                     >
                         Your Lists
                 </Typography>
