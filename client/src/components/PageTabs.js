@@ -42,23 +42,30 @@ function PageTabs() {
   };
 
   function checkValue() {
-    if(value == "one") {
+    if(value === "one") {
       return 'visible';
     }
     else return 'hidden';
   }
   function checkComment() {
-    if(value == "two") {
+    if(value === "two") {
       return 'visible';
     }
     else return 'hidden';
+  }
+
+  function checkStatus() {
+    if(store.currentList != null && store.currentList.isPublished) {
+      return false;
+    }
+    else return true;
   }
 
   function addComment(comm) {
 
   }
   
-  if(value == "one") {
+  if(value === "one") {
     return (
       <Box>
         <Tabs
@@ -67,7 +74,11 @@ function PageTabs() {
           aria-label="youtube-player"
         >
           <Tab value="one" label="Player"></Tab>
-          <Tab value="two" label="Comments"></Tab>
+          <Tab 
+            value="two" 
+            label="Comments">
+            disabled={checkStatus}
+          </Tab>
         </Tabs>
         <Box component="div" sx={{ visibility: {checkValue}}}>
           <YouTubeToolbar />
@@ -77,7 +88,7 @@ function PageTabs() {
     );
   }
   else {
-    if(store.currentList != null) {
+    if(store.currentList != null && store.currentList.isPublished) {
       return (
         <Box>
           <Tabs
@@ -86,7 +97,7 @@ function PageTabs() {
             aria-label="youtube-player"
           >
             <Tab value="one" label="Player"></Tab>
-            <Tab value="two" label="Comments"></Tab>
+            <Tab value="two" label="Comments" disabled={checkStatus}></Tab>
           </Tabs>
           <Box component="div" sx={{ visibility: {checkComment}}}>
             <List 
@@ -102,7 +113,6 @@ function PageTabs() {
                 )) 
               }
             </List>
-            Hello
           </Box>
           <Box sx={{paddingLeft: 4}}>
             <TextField 
@@ -126,30 +136,11 @@ function PageTabs() {
             aria-label="youtube-player"
           >
             <Tab value="one" label="Player"></Tab>
-            <Tab value="two" label="Comments"></Tab>
+            <Tab value="two" label="Comments" disabled={checkStatus}></Tab>
           </Tabs>
-          <Box component="div" sx={{ visibility: {checkComment}}}>
-            <List 
-              id="playlist-cards" 
-              sx={{ width: '100%', bgcolor: 'background.paper' }}
-            >
-            </List>
-          </Box>
-          <Box sx={{paddingLeft: 4}}>
-            <TextField 
-              sx={{ width: '90%' }}
-              id="outlined-basic" 
-              label="Add comment" 
-              variant="outlined" 
-              inputProps={{min: 0, style: { textAlign: 'center'}}}
-              onChange={(newValue) => addComment(newValue.target.value)}
-            />
-          </Box>
         </Box>
       );
     }
   }
-
-  
 }
 export default PageTabs;
