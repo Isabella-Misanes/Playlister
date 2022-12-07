@@ -3,12 +3,15 @@ import { GlobalStoreContext } from '../store'
 import { Box } from '@mui/system'
 import { Paper, Tabs } from '@mui/material'
 import { Tab } from '@mui/material'
+import Grid from '@mui/material'
+import { TextField } from '@mui/material';
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 import YouTubeToolbar from './YouTubeToolbar'
+import CommentCard from './CommentCard'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -33,7 +36,7 @@ function PageTabs() {
       position: 'fixed',
   };
   const [value, setValue] = React.useState("one");
-
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -43,6 +46,16 @@ function PageTabs() {
       return 'visible';
     }
     else return 'hidden';
+  }
+  function checkComment() {
+    if(value == "two") {
+      return 'visible';
+    }
+    else return 'hidden';
+  }
+
+  function addComment(comm) {
+
   }
   
   if(value == "one") {
@@ -57,27 +70,84 @@ function PageTabs() {
           <Tab value="two" label="Comments"></Tab>
         </Tabs>
         <Box component="div" sx={{ visibility: {checkValue}}}>
-          <YouTubeToolbar
-        />
+          <YouTubeToolbar />
         </Box>
         
       </Box>
     );
   }
   else {
-    return (
-      <Box>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="youtube-player"
-        >
-          <Tab value="one" label="Player"></Tab>
-          <Tab value="two" label="Comments"></Tab>
-        </Tabs>
-        
-      </Box>
-    );
+    if(store.currentList != null) {
+      return (
+        <Box>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="youtube-player"
+          >
+            <Tab value="one" label="Player"></Tab>
+            <Tab value="two" label="Comments"></Tab>
+          </Tabs>
+          <Box component="div" sx={{ visibility: {checkComment}}}>
+            <List 
+              id="playlist-cards" 
+              sx={{ width: '100%', bgcolor: 'background.paper' }}
+            >
+              {
+                store.currentList.comments.map((user, comment) => (
+                  <CommentCard
+                    user={user}
+                    comment={comment}
+                  />
+                )) 
+              }
+            </List>
+            Hello
+          </Box>
+          <Box sx={{paddingLeft: 4}}>
+            <TextField 
+              sx={{ width: '90%' }}
+              id="outlined-basic" 
+              label="Add comment" 
+              variant="outlined" 
+              inputProps={{min: 0, style: { textAlign: 'center'}}}
+              onChange={(newValue) => addComment(newValue.target.value)}
+            />
+          </Box>
+        </Box>
+      );
+    }
+    else {
+      return (
+        <Box>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="youtube-player"
+          >
+            <Tab value="one" label="Player"></Tab>
+            <Tab value="two" label="Comments"></Tab>
+          </Tabs>
+          <Box component="div" sx={{ visibility: {checkComment}}}>
+            <List 
+              id="playlist-cards" 
+              sx={{ width: '100%', bgcolor: 'background.paper' }}
+            >
+            </List>
+          </Box>
+          <Box sx={{paddingLeft: 4}}>
+            <TextField 
+              sx={{ width: '90%' }}
+              id="outlined-basic" 
+              label="Add comment" 
+              variant="outlined" 
+              inputProps={{min: 0, style: { textAlign: 'center'}}}
+              onChange={(newValue) => addComment(newValue.target.value)}
+            />
+          </Box>
+        </Box>
+      );
+    }
   }
 
   
