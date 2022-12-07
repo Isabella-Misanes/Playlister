@@ -8,7 +8,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
-import YouTubePlayer from './YouTubePlayer'
 import YouTubeToolbar from './YouTubeToolbar'
 /*
     This React component lists all the top5 lists in the UI.

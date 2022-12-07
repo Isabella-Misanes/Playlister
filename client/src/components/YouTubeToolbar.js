@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
-import YouTubePlayer from './YouTubePlayer';
 import YoutubeEmbed from './YouTubeEmbed';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
