@@ -435,8 +435,15 @@ function ListCard(props) {
             );
         }
     }
+    else if(store.searchType === "BY_USER") {
+        return(
+            null
+        );
+    }
     else {
-        return null;
+        return (
+            null
+        );
     }
 }
 

@@ -43,6 +43,16 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
+
+    function checkSearchType() {
+        if(store.searchType === store.isHome()) {
+            return "false";
+        }
+        else {
+            return "true";
+        }
+    }
+
     let listCard = "";
     if (store) {
         listCard = 
@@ -59,6 +69,44 @@ const HomeScreen = () => {
             }
             </List>;
     }
+    
+    if(store.searchType === "BY_TITLE") {
+        return (
+            <div id="playlist-selector">
+            <div id="list-selector-heading">
+                <Typography 
+                    style={textStyle}
+                    >
+                        All Lists
+                </Typography>
+            </div>
+            <div id="list-selector-list">
+                {
+                    listCard
+                }
+            </div>
+        </div>
+        );
+    }
+    else if(store.searchType === "BY_USER") {
+        return (
+            <div id="playlist-selector">
+            <div id="list-selector-heading">
+                <Typography 
+                    style={textStyle}
+                    >
+                        Lists by 
+                </Typography>
+            </div>
+            <div id="list-selector-list">
+                {
+                    listCard
+                }
+            </div>
+        </div>
+        );
+    }
+
     return (
         <div id="playlist-selector">
             <div id="list-selector-heading">
@@ -66,6 +114,7 @@ const HomeScreen = () => {
                 style={buttonStyle}
                 color="primary" 
                 aria-label="add"
+                aria-hidden={checkSearchType()}
                 id="add-list-button"
                 onClick={handleCreateNewList}
                 disabled={store.isModalOpen() || !store.isHome() || store.currentList != null }
@@ -84,7 +133,10 @@ const HomeScreen = () => {
                 }
                 <MUIDeleteModal />
             </div>
-        </div>)
+        </div>
+    );
+    
+    
 }
 
 export default HomeScreen;
