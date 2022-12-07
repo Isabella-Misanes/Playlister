@@ -29,10 +29,10 @@ export default function HomeWrapper() {
         return (
             <Grid container>
                 <HomeBanner/>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                     <HomeScreen />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                     <PageTabs />
                 </Grid>
                 {modalJSX}
