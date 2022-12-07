@@ -46,7 +46,7 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '97.5%', left: '2.5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '97.5%', height: '100%', left: '2.5%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -68,7 +68,7 @@ const HomeScreen = () => {
                 aria-label="add"
                 id="add-list-button"
                 onClick={handleCreateNewList}
-                disabled={store.isModalOpen() || !store.isHome() }
+                disabled={store.isModalOpen() || !store.isHome() || store.currentList != null }
             >
                 <AddIcon />
             </Fab>
