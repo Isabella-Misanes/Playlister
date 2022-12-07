@@ -23,6 +23,7 @@ export default function HomeBanner() {
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const [currView, setCurrView] = useState("HOME");
 
     const handleSortClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -31,6 +32,31 @@ export default function HomeBanner() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+
+    function handleHomeClick(event) {
+        event.stopPropagation();
+        setCurrView("HOME");
+        checkView("HOME");
+    }
+    function handleTitleClick(event) {
+        event.stopPropagation();
+        setCurrView("BY_TITLE");
+        checkView("BY_TITLE");
+    }
+    function handleUserClick(event) {
+        event.stopPropagation();
+        setCurrView("BY_USER");
+        checkView("BY_USER");
+    }
+
+    function checkView(typeButton) {
+        if(currView == typeButton) {
+            return 'secondary';
+        }
+        else {
+            return 'default';
+        }
+    }
 
     const handleSortAlphabetical = () => {
         
@@ -109,56 +135,63 @@ export default function HomeBanner() {
         }
     }
     
-    if(store.isHome()) {
-        return (
-            <Box 
-                sx={{ 
-                    flexGrow: 1 }}
-                onKeyDown={store.undoRedoHandling}
-                tabIndex="1">
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton aria-label="home" color='secondary'>
-                            <HomeIcon/>
+    return (
+        <Box 
+            sx={{ 
+                flexGrow: 1 }}
+            onKeyDown={store.undoRedoHandling}
+            tabIndex="1">
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton 
+                        aria-label="home" 
+                        color={checkView("HOME")}
+                        onClick={handleHomeClick}>
+                        <HomeIcon/>
+                    </IconButton>
+                    <IconButton 
+                        aria-label="by-title" 
+                        color={checkView("BY_TITLE")}
+                        onClick={handleTitleClick}>
+                        <GroupsIcon />
+                    </IconButton>
+                    <IconButton 
+                        aria-label="by-user" 
+                        color={checkView("BY_USER")}
+                        onClick={handleUserClick}>
+                        <PersonIcon />
+                    </IconButton>
+                    <Box sx={{ flexGrow: 1 }}></Box>
+                    <TextField 
+                        sx={{
+                            width: 400
+                        }}
+                        id="outlined-basic" 
+                        label="Search" 
+                        variant="outlined" 
+                        inputProps={{min: 0, style: { textAlign: 'center'}}}
+                    />
+                    <Box sx={{ flexGrow: 0.5 }}></Box>
+                    Sort By
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="sort"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleSortClick}
+                            color="inherit"
+                        >
+                            <SortIcon />
                         </IconButton>
-                        <IconButton aria-label="user">
-                            <PersonIcon />
-                        </IconButton>
-                        <IconButton aria-label="users">
-                            <GroupsIcon />
-                        </IconButton>
-                        <Box sx={{ flexGrow: 1 }}></Box>
-                        <TextField 
-                            sx={{
-                                width: 400
-                            }}
-                            id="outlined-basic" 
-                            label="Search" 
-                            variant="outlined" 
-                            inputProps={{min: 0, style: { textAlign: 'center'}}}
-                        />
-                        <Box sx={{ flexGrow: 0.5 }}></Box>
-                        Sort By
-                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="sort"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleSortClick}
-                                color="inherit"
-                            >
-                                <SortIcon />
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                </AppBar>
-                {
-                    menu
-                }
-            </Box>
-        );
-    }
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            {
+                menu
+            }
+        </Box>
+    );
     
 }
