@@ -13,6 +13,7 @@ import WorkspaceScreen from './WorkspaceScreen';
 import { Grid } from '@mui/material';
 import List from '@mui/material/List';
 import SongCard from './SongCard';
+import PublishedSongCard from './PublishedSongCard';
 import EditToolbar from './EditToolbar';
 
 /*
@@ -85,6 +86,11 @@ function ListCard(props) {
         store.markListForDeletion(id);
     }
 
+    async function handlePublishList(event, id) {
+        event.stopPropagation();
+        store.publishPlaylist(id);
+    }
+
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -94,10 +100,6 @@ function ListCard(props) {
     }
     function handleUpdateText(event) {
         setText(event.target.value);
-    }
-
-    function handleClose() {
-        store.closeCurrentList();
     }
 
     let selectClass = "unselected-list-card";
@@ -147,8 +149,7 @@ function ListCard(props) {
             
         </ListItem>;
     
-
-    if(expandActive) {
+    if(expandActive && !store.currentList.isPublished) {
         cardElement =
             <ListItem
                 id={idNamePair._id}
@@ -190,6 +191,16 @@ function ListCard(props) {
                     </Grid>
                     <Box sx={{}}>{editToolbar}</Box>
                     <Box sx={{ flexGrow: 1 }}></Box>
+                    <Box sx={{}}>
+                        <Button 
+                            onClick={(event) => {
+                                handlePublishList(event, idNamePair._id)
+                            }} 
+                            aria-label='publish'
+                            disabled={store.isModalOpen()}>
+                            Publish
+                        </Button>
+                    </Box>
                     <Box sx={{}}>
                         <IconButton 
                             onClick={handleToggleEdit} 
@@ -242,6 +253,83 @@ function ListCard(props) {
                 autoFocus
             />
     }
+
+    if(expandActive && store.currentList.isPublished) {
+        cardElement = 
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+                style={{ width: '100%', fontSize: '24pt' }}
+            >
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box 
+                            sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                            style={{fontSize: '12pt'}}
+                            >
+                                by {auth.getUsername()}
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box>
+                            <List 
+                                id="playlist-cards" 
+                                sx={{ width: '100%', bgcolor: 'background.paper' }}
+                            >
+                                {
+                                    store.currentList.songs.map((song, index) => (
+                                        <PublishedSongCard
+                                            id={'playlist-song-' + (index)}
+                                            key={'playlist-song-' + (index)}
+                                            index={index}
+                                            song={song}
+                                        />
+                                    ))  
+                                    
+                                }
+                            </List>
+                        </Box>
+                    </Grid>
+                    <Box sx={{}}>
+                        <IconButton 
+                            onClick={handleToggleEdit} 
+                            aria-label='edit'
+                            disabled={store.isModalOpen()}>
+                            <EditIcon style={{fontSize:'24pt'}} />
+                        </IconButton>
+                    </Box>
+                    <Box sx={{}}>
+                        <Button 
+                            onClick={(event) => {
+                                handleDeleteList(event, idNamePair._id)
+                            }} 
+                            aria-label='delete'
+                            disabled={store.isModalOpen()}>
+                            Delete
+                        </Button>
+                    </Box>
+                    <Box sx={{}}>
+                        <IconButton 
+                            onClick={handleToggleExpand} 
+                            aria-label='edit'
+                            disabled={store.isModalOpen()}>
+                            <ExpandLessIcon style={{
+                                fontSize:'24pt'
+                            }} 
+                            />
+                        </IconButton>
+                    </Box>
+                </Grid>
+            </ListItem>
+        
+    }
+
+
+
     return (
         cardElement
     );

@@ -569,6 +569,11 @@ function GlobalStoreContextProvider(props) {
         }
         asyncUpdateCurrentList();
     }
+    store.publishPlaylist = function() {
+        let list = store.currentList;
+        list.isPublished = true;
+        store.updateCurrentList();
+    }
     store.undo = function () {
         tps.undoTransaction();
     }

@@ -11,6 +11,7 @@ import MUIBadLoginModal from './MUIBadLoginModal'
 import MUIBadSignupModal from './MUIBadSignupModal'
 import RegisterScreen from './RegisterScreen'
 import SongCard from './SongCard'
+import PublishedSongCard from './PublishedSongCard'
 import SplashScreen from './SplashScreen'
 import WorkspaceScreen from './WorkspaceScreen'
 /*
@@ -31,6 +32,7 @@ export {
     MUIRemoveSongModal,
     MUIBadLoginModal,
     MUIBadSignupModal,
+    PublishedSongCard,
     SongCard,
     RegisterScreen,
     SplashScreen,
