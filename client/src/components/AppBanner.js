@@ -81,9 +81,6 @@ export default function AppBanner() {
     let menu = loggedOutMenu;
     if (auth.loggedIn) {
         menu = loggedInMenu;
-        if (store.currentList) {
-            editToolbar = <EditToolbar />;
-        }
     }
     
     function getAccountMenu(loggedIn) {
@@ -117,7 +114,7 @@ export default function AppBanner() {
                                 />
                         </Link>
                     </Typography>
-                    <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
+                    <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
                             size="large"

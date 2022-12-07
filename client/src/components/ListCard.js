@@ -8,10 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import WorkspaceScreen from './WorkspaceScreen';
 import { Grid } from '@mui/material';
 import List from '@mui/material/List';
 import SongCard from './SongCard';
+import EditToolbar from './EditToolbar';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -54,7 +56,7 @@ function ListCard(props) {
         if(newExpand) {
             handleLoadList();
             async function waitLoadList() {
-                await timeout(100);
+                await timeout(500);
                 console.log("What is current list?");
                 console.log(store.currentList)
                 store.setIsListExpandedActive();
@@ -64,6 +66,8 @@ function ListCard(props) {
         }
         else {
             setExpandActive(newExpand);
+            store.closeCurrentList();
+
         }
     }
 
@@ -105,6 +109,11 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+
+    let editToolbar = "";
+    if (store.currentList) {
+        editToolbar = <EditToolbar />;
+    }
     
     let cardElement =
         <ListItem
@@ -128,13 +137,14 @@ function ListCard(props) {
                         
             </Grid>
             <IconButton 
-                            onClick={handleToggleExpand} 
-                            aria-label='edit'>
-                            <ExpandMoreIcon style={{
-                                fontSize:'24pt'
-                            }} 
-                            />
-                        </IconButton>
+                onClick={handleToggleExpand} 
+                aria-label='edit'>
+                <ExpandMoreIcon style={{
+                    fontSize:'24pt'
+                    }} 
+                />
+            </IconButton>
+            
         </ListItem>;
     
 
@@ -177,6 +187,7 @@ function ListCard(props) {
                                     }
                                 </List>
                             </Box>
+                            <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                         </Grid>
                         <Grid item xs={6}>
                             <Box sx={{}}>
@@ -184,7 +195,7 @@ function ListCard(props) {
                                     onClick={handleToggleExpand} 
                                     aria-label='edit'
                                     disabled={store.isModalOpen()}>
-                                    <ExpandMoreIcon style={{
+                                    <ExpandLessIcon style={{
                                         fontSize:'24pt'
                                     }} 
                                     />
