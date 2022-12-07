@@ -91,6 +91,12 @@ function ListCard(props) {
         store.publishPlaylist(id);
     }
 
+    async function handleDuplicateList(event) {
+        event.stopPropagation();
+        let list = store.currentList;
+        const response = await store.duplicateList(list);
+    }
+
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -149,7 +155,7 @@ function ListCard(props) {
             
         </ListItem>;
     
-    if(expandActive && !store.currentList.isPublished) {
+    if(expandActive && store.currentList != null && !store.currentList.isPublished) {
         cardElement =
             <ListItem
                 id={idNamePair._id}
@@ -254,7 +260,7 @@ function ListCard(props) {
             />
     }
 
-    if(expandActive && store.currentList.isPublished) {
+    if(expandActive && store.currentList != null && store.currentList.isPublished) {
         cardElement = 
             <ListItem
                 id={idNamePair._id}
@@ -295,14 +301,6 @@ function ListCard(props) {
                         </Box>
                     </Grid>
                     <Box sx={{}}>
-                        <IconButton 
-                            onClick={handleToggleEdit} 
-                            aria-label='edit'
-                            disabled={store.isModalOpen()}>
-                            <EditIcon style={{fontSize:'24pt'}} />
-                        </IconButton>
-                    </Box>
-                    <Box sx={{}}>
                         <Button 
                             onClick={(event) => {
                                 handleDeleteList(event, idNamePair._id)
@@ -310,6 +308,16 @@ function ListCard(props) {
                             aria-label='delete'
                             disabled={store.isModalOpen()}>
                             Delete
+                        </Button>
+                    </Box>
+                    <Box sx={{}}>
+                        <Button 
+                            onClick={(event) => {
+                                handleDuplicateList(event)
+                            }} 
+                            aria-label='delete'
+                            disabled={store.isModalOpen()}>
+                            Duplicate
                         </Button>
                     </Box>
                     <Box sx={{}}>

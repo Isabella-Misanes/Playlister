@@ -350,6 +350,29 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.duplicateList = async function(list) {
+        let name = list.name;
+        name = name + "1";
+        const response = await api.createPlaylist(name, list.songs, auth.user.email, auth.user.username);
+        if (response.status === 201) {
+            tps.clearAllTransactions();
+            let newList = response.data.playlist;
+            storeReducer({
+                type: GlobalStoreActionType.CREATE_NEW_LIST,
+                payload: newList
+            }
+            );
+            history.push("/");
+            async function waitLoadList() {
+                await store.loadIdNamePairs();
+            }
+            waitLoadList();
+        }
+        else {
+            console.log("API FAILED TO CREATE A NEW LIST");
+        }
+    }
+
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
