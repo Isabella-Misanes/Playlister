@@ -6,10 +6,10 @@ import SplashScreen from './SplashScreen'
 import AuthContext from '../auth'
 import HomeBanner from './HomeBanner';
 import { Grid } from '@mui/material';
-import YouTubePlayer from './YouTubePlayer';
 import GlobalStoreContext from '../store';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
+import PageTabs from './PageTabs'
 
 export default function HomeWrapper() {
     const { store } = useContext(GlobalStoreContext);
@@ -33,7 +33,7 @@ export default function HomeWrapper() {
                     <HomeScreen />
                 </Grid>
                 <Grid item xs={6}>
-                    <YouTubePlayer />
+                    <PageTabs />
                 </Grid>
                 {modalJSX}
             </Grid>

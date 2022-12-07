@@ -213,7 +213,7 @@ function GlobalStoreContextProvider(props) {
                     sortingType : store.sortingType,
                     searchType: store.searchType,
                     idNamePairs: store.idNamePairs,
-                    currentList: store.currentList,
+                    currentList: payload,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -277,6 +277,22 @@ function GlobalStoreContextProvider(props) {
                     currentModal : CurrentModal.NONE,
                     sortingType : store.sortingType,
                     searchType: payload,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listExpandedActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.CHANGE_SORT_TYPE: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    sortingType : payload,
+                    searchType: store.searchType,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: -1,
@@ -696,7 +712,7 @@ function GlobalStoreContextProvider(props) {
     store.setIsListExpandedActive = function () {
         storeReducer({
             type: GlobalStoreActionType.SET_LIST_EXPAND_ACTIVE,
-            payload: null
+            payload: store.currentList
         });
     }
 
