@@ -23,7 +23,8 @@ const playlistSchema = new Schema(
         }], required: false },
         listens: { type: Number, required: false },
         likes: { type: Number, required: false },
-        dislikes: { type: Number, required: false }
+        dislikes: { type: Number, required: false },
+        publishDate: { type: String, required: false }
     },
     { timestamps: true },
 )

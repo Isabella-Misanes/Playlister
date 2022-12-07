@@ -484,6 +484,17 @@ function GlobalStoreContextProvider(props) {
         asyncSetCurrentList(id);
     }
 
+    store.getPlaylist = function(id) {
+        async function asyncGetPlaylist(id) {
+            let response = await api.getPlaylistById(id);
+            if(response.data.success) {
+                let playlist = response.data.playlist;
+                return playlist;
+            }
+        }
+        asyncGetPlaylist(id);
+    }
+
     store.getPlaylistSize = function() {
         return store.currentList.songs.length;
     }
@@ -595,6 +606,14 @@ function GlobalStoreContextProvider(props) {
     store.publishPlaylist = function() {
         let list = store.currentList;
         list.isPublished = true;
+        list.listens = 0;
+        list.likes = 0;
+        list.dislikes = 0;
+        let currentDate = new Date();
+        let date = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        let month = date.toLocaleString('default', { month: 'long' });
+        let fullDate = month + " " + date.getDate() + ", " + date.getFullYear();
+        list.publishDate = fullDate;
         store.updateCurrentList();
     }
     store.undo = function () {

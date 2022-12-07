@@ -8,6 +8,10 @@ import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { Button } from '@mui/material';
 import WorkspaceScreen from './WorkspaceScreen';
 import { Grid } from '@mui/material';
@@ -97,6 +101,11 @@ function ListCard(props) {
         const response = await store.duplicateList(list);
     }
 
+    async function handleGetList(id) {
+        let list = await store.getPlaylist(id);
+        return list;
+    }
+
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -121,42 +130,30 @@ function ListCard(props) {
     if (store.currentList) {
         editToolbar = <EditToolbar />;
     }
-    
-    let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '10px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '24pt' }}
-        >
-            <Grid container>
-                <Grid item xs={12}>
-                    <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-                </Grid>
-                <Grid item xs={12}>
-                    <Box 
-                        sx={{ paddingLeft: 1.5, flexGrow: 1 }}
-                        style={{fontSize: '12pt'}}
-                        >
-                            by {auth.getUsername()}
-                    </Box>
-                </Grid>
-                        
-            </Grid>
-            <IconButton 
-                onClick={handleToggleExpand} 
-                aria-label='edit'
-                disabled={store.currentList != null}>
-                <ExpandMoreIcon style={{
-                    fontSize:'24pt'
-                    }} 
-                />
-            </IconButton>
-            
-        </ListItem>;
-    
+
+    if (editActive) {
+        return(
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id={"list-" + idNamePair._id}
+                label="Playlist Name"
+                name="name"
+                autoComplete="Playlist Name"
+                className='list-card'
+                onKeyPress={handleKeyPress}
+                onChange={handleUpdateText}
+                defaultValue={idNamePair.name}
+                inputProps={{style: {fontSize: 24}}}
+                InputLabelProps={{style: {fontSize: 24}}}
+                autoFocus
+            />
+        );
+    }
+
     if(expandActive && store.currentList != null && !store.currentList.isPublished) {
-        cardElement =
+        return(
             <ListItem
                 id={idNamePair._id}
                 key={idNamePair._id}
@@ -175,6 +172,7 @@ function ListCard(props) {
                                 by {auth.getUsername()}
                         </Box>
                     </Grid>
+                    
                     <Grid item xs={12}>
                         <Box>
                             <List 
@@ -238,30 +236,10 @@ function ListCard(props) {
                     </Box>
                 </Grid>
             </ListItem>
+        );
     }
-
-    if (editActive) {
-        cardElement =
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id={"list-" + idNamePair._id}
-                label="Playlist Name"
-                name="name"
-                autoComplete="Playlist Name"
-                className='list-card'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 24}}}
-                InputLabelProps={{style: {fontSize: 24}}}
-                autoFocus
-            />
-    }
-
-    if(expandActive && store.currentList != null && store.currentList.isPublished) {
-        cardElement = 
+    else if(expandActive && store.currentList != null && store.currentList.isPublished) {
+        return(
             <ListItem
                 id={idNamePair._id}
                 key={idNamePair._id}
@@ -269,10 +247,30 @@ function ListCard(props) {
                 style={{ width: '100%', fontSize: '24pt' }}
             >
                 <Grid container>
-                    <Grid item xs={12}>
+                    <Grid item xs={8}>
                         <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={4}>
+                        <Box sx={{}}>
+                        <IconButton 
+                            aria-label='thumb-up'
+                            disabled={store.isModalOpen()}>
+                            <ThumbUpOffAltIcon 
+                                style={{fontSize:'24pt'}} 
+                            />
+                            {store.currentList.likes}
+                        </IconButton>
+                        <IconButton 
+                            aria-label='thumb-up'
+                            disabled={store.isModalOpen()}>
+                            <ThumbDownOffAltIcon
+                                style={{fontSize:'24pt'}} 
+                            />
+                            {store.currentList.dislikes}
+                        </IconButton>
+                    </Box>
+                    </Grid>
+                    <Grid item xs={8}>
                         <Box 
                             sx={{ paddingLeft: 1.5, flexGrow: 1 }}
                             style={{fontSize: '12pt'}}
@@ -280,6 +278,7 @@ function ListCard(props) {
                                 by {auth.getUsername()}
                         </Box>
                     </Grid>
+                    
                     <Grid item xs={12}>
                         <Box>
                             <List 
@@ -299,6 +298,9 @@ function ListCard(props) {
                                 }
                             </List>
                         </Box>
+                    </Grid>
+                    <Grid xs={8}>
+                        <Box sx={{flexGrow: 1}}></Box>
                     </Grid>
                     <Box sx={{}}>
                         <Button 
@@ -320,6 +322,20 @@ function ListCard(props) {
                             Duplicate
                         </Button>
                     </Box>
+                    <Grid item xs={8}>
+                        <Box 
+                            sx={{ p: 1 }}
+                            style={{ fontSize: '8pt'}}>
+                            <strong>Published:</strong> {store.currentList.publishDate}
+                        </Box>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Box 
+                            sx={{ p: 1 }}
+                            style={{ fontSize: '8pt'}}>
+                            <strong>Listens: </strong>{store.currentList.listens}        
+                        </Box>
+                    </Grid>
                     <Box sx={{}}>
                         <IconButton 
                             onClick={handleToggleExpand} 
@@ -333,14 +349,90 @@ function ListCard(props) {
                     </Box>
                 </Grid>
             </ListItem>
-        
+        );
     }
-
-
-
-    return (
-        cardElement
-    );
+    else if(!expandActive && store.currentList != null && store.currentList.isPublished) {
+        return(
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+                style={{ width: '100%', fontSize: '24pt' }}
+            >
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box 
+                            sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                            style={{fontSize: '12pt'}}
+                            >
+                                by {auth.getUsername()}
+                        </Box>
+                    </Grid>
+                </Grid>
+                <Grid item xs={8}>
+                        <Box 
+                            sx={{ p: 1 }}
+                            style={{ fontSize: '8pt'}}>
+                            <strong>Published:</strong> {store.currentList.publishDate}
+                        </Box>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Box 
+                            sx={{ p: 1 }}
+                            style={{ fontSize: '8pt'}}>
+                            <strong>Listens: </strong>{store.currentList.listens}        
+                        </Box>
+                    </Grid>
+                <IconButton 
+                    onClick={handleToggleExpand} 
+                    aria-label='edit'
+                    disabled={store.currentList != null}>
+                    <ExpandMoreIcon style={{
+                        fontSize:'24pt'
+                        }} 
+                    />
+                </IconButton>
+            </ListItem>
+        );
+    }
+    else {
+        return(
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+                style={{ width: '100%', fontSize: '24pt' }}
+            >
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box 
+                            sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                            style={{fontSize: '12pt'}}
+                            >
+                                by {auth.getUsername()}
+                        </Box>
+                    </Grid>
+                            
+                </Grid>
+                <IconButton 
+                    onClick={handleToggleExpand} 
+                    aria-label='edit'
+                    disabled={store.currentList != null}>
+                    <ExpandMoreIcon style={{
+                        fontSize:'24pt'
+                        }} 
+                    />
+                </IconButton>
+                
+            </ListItem>
+        );
+    }
 }
 
 export default ListCard;

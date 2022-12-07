@@ -121,7 +121,7 @@ function AuthContextProvider(props) {
                     user: response.data.user
                 }
             })
-            history.push("/");
+            history.push("/login/");
         }
         else if(response.status === 204) {
             auth.showBadCredsModal();
