@@ -272,6 +272,22 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+            case GlobalStoreActionType.CHANGE_SEARCH_TYPE: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    sortingType : store.sortingType,
+                    searchType: payload,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listExpandedActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
             default:
                 return store;
         }
@@ -459,6 +475,28 @@ function GlobalStoreContextProvider(props) {
 
     store.isHome = () => {
         return store.searchType === SearchType.HOME;
+    }
+
+    store.changeSearchType = (search) => {
+        if(store.searchType !== search) {
+            if(search === SearchType.HOME) {
+                store.searchType = SearchType.HOME;
+            }
+            else if(search === SearchType.BY_TITLE) {
+                store.searchType = SearchType.BY_TITLE;
+            }
+            else {
+                store.searchType = SearchType.BY_USER;
+            }
+            storeReducer({
+                type: GlobalStoreActionType.CHANGE_SEARCH_TYPE,
+                payload: search
+            });
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING

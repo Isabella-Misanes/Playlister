@@ -24,6 +24,11 @@ export default function HomeBanner() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const [currView, setCurrView] = useState("HOME");
+    const [currSearch, setSearch] = useState(null);
+
+    function setSearchCall(search) {
+
+    }
 
     const handleSortClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -33,20 +38,40 @@ export default function HomeBanner() {
         setAnchorEl(null);
     };
 
-    function handleHomeClick(event) {
-        event.stopPropagation();
-        setCurrView("HOME");
-        checkView("HOME");
+    async function handleChangeSearch(search) {
+        let bool = await store.changeSearchType(search);
+        if(bool) {
+            console.log("SearchType Change successful")
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    function handleTitleClick(event) {
+
+    async function handleHomeClick(event) {
         event.stopPropagation();
-        setCurrView("BY_TITLE");
-        checkView("BY_TITLE");
+        let bool = await handleChangeSearch("HOME");
+        if(bool) {
+            setCurrView("HOME");
+            checkView("HOME");
+        }
     }
-    function handleUserClick(event) {
+    async function handleTitleClick(event) {
         event.stopPropagation();
-        setCurrView("BY_USER");
-        checkView("BY_USER");
+        let bool = await handleChangeSearch("BY_TITLE");
+        if(bool) {
+            setCurrView("BY_TITLE");
+            checkView("BY_TITLE");
+        }
+    }
+    async function handleUserClick(event) {
+        event.stopPropagation();
+        let bool = await handleChangeSearch("BY_USER");
+        if(bool) {
+            setCurrView("BY_USER");
+            checkView("BY_USER");
+        }
     }
 
     function checkView(typeButton) {
@@ -170,6 +195,7 @@ export default function HomeBanner() {
                         label="Search" 
                         variant="outlined" 
                         inputProps={{min: 0, style: { textAlign: 'center'}}}
+                        onChange={(newValue) => setSearchCall(newValue.target.value)}
                     />
                     <Box sx={{ flexGrow: 0.5 }}></Box>
                     Sort By
