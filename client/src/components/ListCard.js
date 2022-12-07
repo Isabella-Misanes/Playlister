@@ -2,13 +2,13 @@ import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import AuthContext from '../auth';
 import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { Button } from '@mui/material';
 import WorkspaceScreen from './WorkspaceScreen';
 import { Grid } from '@mui/material';
 import List from '@mui/material/List';
@@ -67,7 +67,6 @@ function ListCard(props) {
         else {
             setExpandActive(newExpand);
             store.closeCurrentList();
-
         }
     }
 
@@ -138,7 +137,8 @@ function ListCard(props) {
             </Grid>
             <IconButton 
                 onClick={handleToggleExpand} 
-                aria-label='edit'>
+                aria-label='edit'
+                disabled={store.currentList != null}>
                 <ExpandMoreIcon style={{
                     fontSize:'24pt'
                     }} 
@@ -149,79 +149,78 @@ function ListCard(props) {
     
 
     if(expandActive) {
-            cardElement =
-                <ListItem
-                    id={idNamePair._id}
-                    key={idNamePair._id}
-                    sx={{ marginTop: '10px', display: 'flex', p: 1 }}
-                    style={{ width: '100%', fontSize: '24pt' }}
-                >
-                    <Grid container>
-                        <Grid item xs={12}>
-                            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Box 
-                                sx={{ paddingLeft: 1.5, flexGrow: 1 }}
-                                style={{fontSize: '12pt'}}
-                                >
-                                    by {auth.getUsername()}
-                            </Box>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Box>
-                                <List 
-                                    id="playlist-cards" 
-                                    sx={{ width: '100%', bgcolor: 'background.paper' }}
-                                >
-                                    {
-                                        store.currentList.songs.map((song, index) => (
-                                            <SongCard
-                                                id={'playlist-song-' + (index)}
-                                                key={'playlist-song-' + (index)}
-                                                index={index}
-                                                song={song}
-                                            />
-                                        ))  
-                                        
-                                    }
-                                </List>
-                            </Box>
-                            <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Box sx={{}}>
-                                <IconButton 
-                                    onClick={handleToggleExpand} 
-                                    aria-label='edit'
-                                    disabled={store.isModalOpen()}>
-                                    <ExpandLessIcon style={{
-                                        fontSize:'24pt'
-                                    }} 
-                                    />
-                                </IconButton>
-                            </Box>
-                        </Grid>
-                        <Box sx={{}}>
-                            <IconButton 
-                                onClick={handleToggleEdit} 
-                                aria-label='edit'
-                                disabled={store.isModalOpen()}>
-                                <EditIcon style={{fontSize:'24pt'}} />
-                            </IconButton>
-                        </Box>
-                        <Box sx={{}}>
-                            <IconButton 
-                                onClick={(event) => {
-                                    handleDeleteList(event, idNamePair._id)
-                                }} 
-                                aria-label='delete'
-                                disabled={store.isModalOpen()}>
-                                <DeleteIcon style={{fontSize:'24pt'}} />
-                            </IconButton>
+        cardElement =
+            <ListItem
+                id={idNamePair._id}
+                key={idNamePair._id}
+                sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+                style={{ width: '100%', fontSize: '24pt' }}
+            >
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box 
+                            sx={{ paddingLeft: 1.5, flexGrow: 1 }}
+                            style={{fontSize: '12pt'}}
+                            >
+                                by {auth.getUsername()}
                         </Box>
                     </Grid>
-                </ListItem>
+                    <Grid item xs={12}>
+                        <Box>
+                            <List 
+                                id="playlist-cards" 
+                                sx={{ width: '100%', bgcolor: 'background.paper' }}
+                            >
+                                {
+                                    store.currentList.songs.map((song, index) => (
+                                        <SongCard
+                                            id={'playlist-song-' + (index)}
+                                            key={'playlist-song-' + (index)}
+                                            index={index}
+                                            song={song}
+                                        />
+                                    ))  
+                                    
+                                }
+                            </List>
+                        </Box>
+                    </Grid>
+                    <Box sx={{}}>{editToolbar}</Box>
+                    <Box sx={{ flexGrow: 1 }}></Box>
+                    <Box sx={{}}>
+                        <IconButton 
+                            onClick={handleToggleEdit} 
+                            aria-label='edit'
+                            disabled={store.isModalOpen()}>
+                            <EditIcon style={{fontSize:'24pt'}} />
+                        </IconButton>
+                    </Box>
+                    <Box sx={{}}>
+                        <Button 
+                            onClick={(event) => {
+                                handleDeleteList(event, idNamePair._id)
+                            }} 
+                            aria-label='delete'
+                            disabled={store.isModalOpen()}>
+                            Delete
+                        </Button>
+                    </Box>
+                    <Box sx={{}}>
+                        <IconButton 
+                            onClick={handleToggleExpand} 
+                            aria-label='edit'
+                            disabled={store.isModalOpen()}>
+                            <ExpandLessIcon style={{
+                                fontSize:'24pt'
+                            }} 
+                            />
+                        </IconButton>
+                    </Box>
+                </Grid>
+            </ListItem>
     }
 
     if (editActive) {

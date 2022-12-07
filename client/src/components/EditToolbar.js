@@ -2,8 +2,6 @@ import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import RedoIcon from '@mui/icons-material/Redo';
-import UndoIcon from '@mui/icons-material/Undo';
 import CloseIcon from '@mui/icons-material/HighlightOff';
 
 /*
@@ -36,19 +34,20 @@ function EditToolbar() {
                 variant="contained">
                 <AddIcon />
             </Button>
+            
             <Button 
                 disabled={!store.canUndo() || store.isModalOpen()}
                 id='undo-button'
                 onClick={handleUndo}
                 variant="contained">
-                    <UndoIcon />
+                    Undo
             </Button>
             <Button 
                 disabled={!store.canRedo() || store.isModalOpen()}
                 id='redo-button'
                 onClick={handleRedo}
                 variant="contained">
-                    <RedoIcon />
+                    Redo
             </Button>
         </div>
     )
