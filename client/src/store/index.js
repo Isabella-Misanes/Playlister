@@ -94,7 +94,7 @@ function GlobalStoreContextProvider(props) {
                     sortingType: store.sortingType,
                     searchType: store.searchType,
                     idNamePairs: payload.idNamePairs,
-                    currentList: null,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -162,7 +162,7 @@ function GlobalStoreContextProvider(props) {
                     sortingType : store.sortingType,
                     searchType: store.searchType,
                     idNamePairs: store.idNamePairs,
-                    currentList: null,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -196,7 +196,7 @@ function GlobalStoreContextProvider(props) {
                     sortingType : store.sortingType,
                     searchType: store.searchType,
                     idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -213,7 +213,7 @@ function GlobalStoreContextProvider(props) {
                     sortingType : store.sortingType,
                     searchType: store.searchType,
                     idNamePairs: store.idNamePairs,
-                    currentList: payload,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,
@@ -443,14 +443,14 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
-
+                store.currentList = playlist;
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
                     storeReducer({
                         type: GlobalStoreActionType.SET_CURRENT_LIST,
                         payload: playlist
                     });
-                    history.push("/playlist/" + playlist._id);
+                    history.push("/");
                 }
             }
         }

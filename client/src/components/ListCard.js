@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WorkspaceScreen from './WorkspaceScreen';
 import { Grid } from '@mui/material';
+import List from '@mui/material/List';
+import SongCard from './SongCard';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -26,18 +28,11 @@ function ListCard(props) {
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
-    function handleLoadList(event, id) {
-        console.log("handleLoadList for " + id);
-        if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
-
-            console.log("load " + event.target.id);
-
+    function handleLoadList() {
+        console.log(idNamePair._id);
+        let id = idNamePair._id;
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
-        }
     }
 
     function handleToggleEdit(event) {
@@ -50,12 +45,26 @@ function ListCard(props) {
         toggleExpand();
     }
 
+    function timeout(delay) {
+        return new Promise(res => setTimeout(res, delay));
+    }
+
     function toggleExpand() {
         let newExpand = !expandActive;
         if(newExpand) {
-            store.setIsListExpandedActive();
+            handleLoadList();
+            async function waitLoadList() {
+                await timeout(100);
+                console.log("What is current list?");
+                console.log(store.currentList)
+                store.setIsListExpandedActive();
+                setExpandActive(newExpand);
+            }
+            waitLoadList();
         }
-        setExpandActive(newExpand);
+        else {
+            setExpandActive(newExpand);
+        }
     }
 
     function toggleEdit() {
@@ -82,6 +91,10 @@ function ListCard(props) {
     }
     function handleUpdateText(event) {
         setText(event.target.value);
+    }
+
+    function handleClose() {
+        store.closeCurrentList();
     }
 
     let selectClass = "unselected-list-card";
@@ -112,9 +125,9 @@ function ListCard(props) {
                             by {auth.getUsername()}
                     </Box>
                 </Grid>
-                <Grid item xs={6}>
-                    <Box sx={{}}>
-                        <IconButton 
+                        
+            </Grid>
+            <IconButton 
                             onClick={handleToggleExpand} 
                             aria-label='edit'>
                             <ExpandMoreIcon style={{
@@ -122,9 +135,6 @@ function ListCard(props) {
                             }} 
                             />
                         </IconButton>
-                    </Box>
-                </Grid>
-            </Grid>
         </ListItem>;
     
 
@@ -135,12 +145,6 @@ function ListCard(props) {
                     key={idNamePair._id}
                     sx={{ marginTop: '10px', display: 'flex', p: 1 }}
                     style={{ width: '100%', fontSize: '24pt' }}
-                    /*
-                    button
-                    onClick={(event) => {
-                        handleLoadList(event, idNamePair._id)
-                    }}
-                    */
                 >
                     <Grid container>
                         <Grid item xs={12}>
@@ -152,6 +156,26 @@ function ListCard(props) {
                                 style={{fontSize: '12pt'}}
                                 >
                                     by {auth.getUsername()}
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Box>
+                                <List 
+                                    id="playlist-cards" 
+                                    sx={{ width: '100%', bgcolor: 'background.paper' }}
+                                >
+                                    {
+                                        store.currentList.songs.map((song, index) => (
+                                            <SongCard
+                                                id={'playlist-song-' + (index)}
+                                                key={'playlist-song-' + (index)}
+                                                index={index}
+                                                song={song}
+                                            />
+                                        ))  
+                                        
+                                    }
+                                </List>
                             </Box>
                         </Grid>
                         <Grid item xs={6}>
