@@ -411,6 +411,7 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
+                store.idNamePairs = pairsArray;
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
                     payload: pairsArray
@@ -422,6 +423,37 @@ function GlobalStoreContextProvider(props) {
         }
         asyncLoadIdNamePairs();
     }
+/*
+    store.loadAllPairs = function() {
+        async function asyncLoadAllPairs() {
+            const response = await api.getAllPlaylists();
+            if(response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                store.idNamePairs = pairsArray;
+                
+                async function asyncSet() {
+                    if(pairsArray) {
+                        store.currentList = pairsArray[0];
+                        await store.setCurrentList(pairsArray[0]._id)
+                    }
+                    
+                }
+                asyncSet();
+                
+                console.log("pairs array");
+                console.log(pairsArray);
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairsArray
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncLoadAllPairs();
+    }
+    */
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
@@ -492,27 +524,11 @@ function GlobalStoreContextProvider(props) {
     store.isHome = () => {
         return store.searchType === SearchType.HOME;
     }
-
-    store.changeSearchType = (search) => {
-        if(store.searchType !== search) {
-            if(search === SearchType.HOME) {
-                store.searchType = SearchType.HOME;
-            }
-            else if(search === SearchType.BY_TITLE) {
-                store.searchType = SearchType.BY_TITLE;
-            }
-            else {
-                store.searchType = SearchType.BY_USER;
-            }
-            storeReducer({
-                type: GlobalStoreActionType.CHANGE_SEARCH_TYPE,
-                payload: search
-            });
-            return true;
-        }
-        else {
-            return false;
-        }
+    store.isByTitle = () => {
+        return store.searchType === SearchType.BY_TITLE;
+    }
+    store.isByUser = () => {
+        return store.searchType === SearchType.BY_USER;
     }
 
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING
@@ -670,6 +686,60 @@ function GlobalStoreContextProvider(props) {
         list.publishDate = fullDate;
         store.updateCurrentList();
     }
+
+    store.postComment = function(user, comment) {
+        let list = store.currentList;
+        let newComment = {
+            user: user,
+            comment: comment
+        };
+        list.comments.push(newComment);
+        store.updateCurrentList();
+    }
+
+    store.changeSearchType = (search) => {
+        if(search === SearchType.HOME) {
+            store.searchType = SearchType.HOME;
+        }
+        else if(search === SearchType.BY_TITLE) {
+            store.searchType = SearchType.BY_TITLE;
+        }
+        else {
+            store.searchType = SearchType.BY_USER;
+        }
+        console.log("New search type");
+        console.log(store.searchType);
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SEARCH_TYPE,
+            payload: search
+        });
+    }
+    /*
+    store.getLists = function(search) {
+        console.log("Inside Get Lists");
+        console.log(store.searchType);
+        async function asyncGetLists() {
+            if(search === SearchType.HOME) {
+                console.log("Home");
+                await store.loadIdNamePairs();
+            }
+            else if(search === SearchType.BY_TITLE) {
+                console.log("By Title");
+                await store.loadAllPairs();
+            }
+            else {
+                console.log("By username");
+                await store.loadAllPairs();
+            }
+        }
+        asyncGetLists();
+    }
+
+    store.doSearch = function(searchType) {
+        console.log("in doSearch");
+    }
+    */
+
     store.undo = function () {
         tps.undoTransaction();
     }

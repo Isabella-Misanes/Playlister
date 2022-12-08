@@ -71,6 +71,7 @@ const HomeScreen = () => {
     }
     
     if(store.searchType === "BY_TITLE") {
+        console.log("in homescreen in by title");
         return (
             <div id="playlist-selector">
             <div id="list-selector-heading">
@@ -89,6 +90,7 @@ const HomeScreen = () => {
         );
     }
     else if(store.searchType === "BY_USER") {
+        console.log("in homescreen in by user");
         return (
             <div id="playlist-selector">
             <div id="list-selector-heading">
@@ -106,7 +108,7 @@ const HomeScreen = () => {
         </div>
         );
     }
-
+    else {
     return (
         <div id="playlist-selector">
             <div id="list-selector-heading">
@@ -135,7 +137,7 @@ const HomeScreen = () => {
             </div>
         </div>
     );
-    
+ }
     
 }
 

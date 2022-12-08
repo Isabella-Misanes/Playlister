@@ -20,7 +20,7 @@ function CommentCard(props) {
             style={{ width: '100%', fontSize: '24pt' }}
             button
             onClick={(event) => {
-                console.log("Hello world");
+                console.log(props);
             }}
         >
             <Box sx={{ p: 1, flexGrow: 1 }}>{user}</Box>

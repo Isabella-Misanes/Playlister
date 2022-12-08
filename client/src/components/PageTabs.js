@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
+
 import { Box } from '@mui/system'
 import { Paper, Tabs } from '@mui/material'
 import { Tab } from '@mui/material'
@@ -19,6 +21,8 @@ import CommentCard from './CommentCard'
 */
 function PageTabs() {
   const { store } = useContext(GlobalStoreContext);
+  const { auth } = useContext(AuthContext);
+  const [value, setValue] = React.useState("one");
   const buttonStyle = {
       margin: 0,
       top: 'auto',
@@ -35,7 +39,6 @@ function PageTabs() {
       left: 'auto',
       position: 'fixed',
   };
-  const [value, setValue] = React.useState("one");
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -60,9 +63,24 @@ function PageTabs() {
     }
     else return true;
   }
-
-  function addComment(comm) {
-
+  function handleKeyPress(event) {
+    console.log("in handlekeypress");
+    if(event.code === 'Enter') {
+      console.log("Pressed enter");
+      addComment(event.target.value);
+    }
+  }
+  async function addComment(comment) {
+    
+    let bool = await store.postComment(auth.user.username, comment);
+    if(bool) {
+      console.log("Post comment success!");
+      async function waitRefresh() {
+        await store.setCurrentList(store.currentList._id);
+      }
+      waitRefresh();
+    }
+    
   }
   
   if(value === "one") {
@@ -104,14 +122,7 @@ function PageTabs() {
               id="playlist-cards" 
               sx={{ width: '100%', bgcolor: 'background.paper' }}
             >
-              {
-                store.currentList.comments.map((user, comment) => (
-                  <CommentCard
-                    user={user}
-                    comment={comment}
-                  />
-                )) 
-              }
+              
             </List>
           </Box>
           <Box sx={{paddingLeft: 4}}>
@@ -121,7 +132,7 @@ function PageTabs() {
               label="Add comment" 
               variant="outlined" 
               inputProps={{min: 0, style: { textAlign: 'center'}}}
-              onChange={(newValue) => addComment(newValue.target.value)}
+              onKeyDown={handleKeyPress}
             />
           </Box>
         </Box>

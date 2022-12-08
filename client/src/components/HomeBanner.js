@@ -39,39 +39,33 @@ export default function HomeBanner() {
     };
 
     async function handleChangeSearch(search) {
-        let bool = await store.changeSearchType(search);
-        if(bool) {
-            console.log("SearchType Change successful")
-            return true;
-        }
-        else {
-            return false;
-        }
+        await store.changeSearchType(search);
+        console.log("SearchType Change successful")
     }
 
     async function handleHomeClick(event) {
         event.stopPropagation();
-        let bool = await handleChangeSearch("HOME");
-        if(bool) {
-            setCurrView("HOME");
-            checkView("HOME");
-        }
+        await handleChangeSearch("HOME");
+        console.log("inside handle home");
+        setCurrView("HOME");
+        checkView("HOME");
+        
     }
     async function handleTitleClick(event) {
         event.stopPropagation();
-        let bool = await handleChangeSearch("BY_TITLE");
-        if(bool) {
-            setCurrView("BY_TITLE");
-            checkView("BY_TITLE");
-        }
+        await handleChangeSearch("BY_TITLE");
+        console.log("inside handle title");
+        setCurrView("BY_TITLE");
+        checkView("BY_TITLE");
+        
     }
     async function handleUserClick(event) {
         event.stopPropagation();
-        let bool = await handleChangeSearch("BY_USER");
-        if(bool) {
-            setCurrView("BY_USER");
-            checkView("BY_USER");
-        }
+        await handleChangeSearch("BY_USER")
+        console.log("inside handle user");
+        setCurrView("BY_USER");
+        checkView("BY_USER");
+        
     }
 
     function checkView(typeButton) {
@@ -80,6 +74,12 @@ export default function HomeBanner() {
         }
         else {
             return 'default';
+        }
+    }
+
+    async function handleKeyPress(event) {
+        if(event.code === 'Enter') {
+            //await store.doSearch(event.target.value);
         }
     }
 
@@ -195,7 +195,7 @@ export default function HomeBanner() {
                         label="Search" 
                         variant="outlined" 
                         inputProps={{min: 0, style: { textAlign: 'center'}}}
-                        onChange={(newValue) => setSearchCall(newValue.target.value)}
+                        onKeyDown={handleKeyPress}
                     />
                     <Box sx={{ flexGrow: 0.5 }}></Box>
                     Sort By
